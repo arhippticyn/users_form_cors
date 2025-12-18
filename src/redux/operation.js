@@ -12,10 +12,7 @@ export const AddUsers = createAsyncThunk(
       formData.append("sex", user.sex);
       formData.append("file", user.file);
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/add",
-        formData
-      );
+      const response = await axios.post("http://127.0.0.1:8000/add", formData);
 
       return await response.data;
     } catch (error) {
@@ -44,6 +41,23 @@ export const FetchUsers = createAsyncThunk(
     try {
       const response = await axios.get("http://127.0.0.1:8000/users");
 
+      return await response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const ProccessImage = createAsyncThunk(
+  "users/ProccessImage",
+  async ({ id, width_r }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/procces-image/${id}`,
+        null, {
+          params: {width_r}
+        }
+      );
       return await response.data;
     } catch (error) {
       return rejectWithValue(error.message);

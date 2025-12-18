@@ -5,18 +5,27 @@ import User from "./User";
 import { FetchUsers } from "../redux/operation";
 
 const Users = () => {
-    const dispatch = useDispatch()
-    const users = useSelector(getUsers)
+  const dispatch = useDispatch();
+  const users = useSelector(getUsers);
 
-    useEffect(() => {
-        dispatch(FetchUsers)
-    }, [dispatch])
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    dispatch(FetchUsers());
+    form.reset();
+  };
+
   return (
-    <ul>
-      {users.map((user) => {
-        return <User key={user.id} user={user} />;
-      })}
-    </ul>
+    <div>
+      <form action="" onSubmit={handleSubmit}>
+        <button type="submit">Fetch</button>
+      </form>
+      <ul>
+        {users.map((user) => {
+          return <User key={user.id} user={user} />;
+        })}
+      </ul>
+    </div>
   );
 };
 
