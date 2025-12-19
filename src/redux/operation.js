@@ -54,10 +54,23 @@ export const ProccessImage = createAsyncThunk(
     try {
       const response = await axios.post(
         `http://127.0.0.1:8000/procces-image/${id}`,
-        null, {
-          params: {width_r}
+        null,
+        {
+          params: { width_r },
         }
       );
+      return await response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const PatchUsers = createAsyncThunk(
+  "users/PatchUsers",
+  async ({ id, newUsername }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(`http://127.0.0.1:8000/patch/${id}`, {newUsername});
       return await response.data;
     } catch (error) {
       return rejectWithValue(error.message);
