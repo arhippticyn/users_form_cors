@@ -13,15 +13,18 @@ const FormDelete = () => {
     form.reset();
   };
   return (
-    <form action="" className={styles.form} onSubmit={handlesubmit}>
-      <label className={styles.label} htmlFor="id">
-        Enter id:
-      </label>
-      <input className={styles.input} type="text" name="id" id="" />
-      <button className={styles.btn} type="submit">
-        Delete User
-      </button>
-    </form>
+    <div>
+      <h2>Delete user</h2>
+      <form action="" className={styles.form} onSubmit={handlesubmit}>
+        <label className={styles.label} htmlFor="id">
+          Enter id:
+        </label>
+        <input className={styles.input} type="text" name="id" id="" />
+        <button className={styles.btn} type="submit">
+          Delete User
+        </button>
+      </form>
+    </div>
   );
 };
 

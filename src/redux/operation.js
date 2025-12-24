@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000'
+
 export const AddUsers = createAsyncThunk(
   "users/AddUsers",
   async (user, { rejectWithValue }) => {
@@ -12,7 +14,7 @@ export const AddUsers = createAsyncThunk(
       formData.append("sex", user.sex);
       formData.append("file", user.file);
 
-      const response = await axios.post("http://127.0.0.1:8000/add", formData);
+      const response = await axios.post("/add", formData);
 
       return await response.data;
     } catch (error) {
@@ -26,7 +28,7 @@ export const DeleteUsers = createAsyncThunk(
   async (UserId, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:8000/delete/${UserId}`
+        `/delete/${UserId}`
       );
       return await response.data;
     } catch (error) {
@@ -39,7 +41,7 @@ export const FetchUsers = createAsyncThunk(
   "users/FetchUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/users");
+      const response = await axios.get("/users");
 
       return await response.data;
     } catch (error) {
@@ -53,7 +55,7 @@ export const ProccessImage = createAsyncThunk(
   async ({ id, width_r }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/procces-image/${id}`,
+        `/procces-image/${id}`,
         null,
         {
           params: { width_r },
@@ -70,10 +72,52 @@ export const PatchUsers = createAsyncThunk(
   "users/PatchUsers",
   async ({ id, newUsername }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`http://127.0.0.1:8000/patch/${id}`, {newUsername});
+      const response = await axios.patch(`/patch/${id}`, {
+        newUsername,
+      });
       return await response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
+export const AddFile = createAsyncThunk(
+  "files/AddFile",
+  async ({ file, userId }, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await axios.post(
+        `/files-add/${userId}`,
+        formData
+      );
+
+      return await response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const GetFiles = createAsyncThunk(
+  'files/GetFiles',
+  async (_, { rejectWithValue}) => {
+    try {
+      const response = await axios.get('/files')
+      return await response.data
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const DeleteFiles = createAsyncThunk('files/DeleteFiles', async (FilesId, { rejectWithValue }) => {
+  try {
+    const response = await axios.delete(`/delete-files/${FilesId}`)
+
+    return await response.data
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
+})

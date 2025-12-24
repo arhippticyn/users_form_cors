@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AddUsers, DeleteUsers, FetchUsers, PatchUsers, ProccessImage } from "./operation";
+import {
+  AddFile,
+  AddUsers,
+  DeleteUsers,
+  FetchUsers,
+  PatchUsers,
+  ProccessImage,
+} from "./operation";
 
 const UsersInitialState = {
   error: null,
@@ -61,7 +68,7 @@ const UsersSlice = createSlice({
       })
       .addCase(PatchUsers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.users.username = action.payload
+        state.users.username = action.payload;
       })
       .addCase(PatchUsers.rejected, (state, action) => {
         state.isLoading = false;
